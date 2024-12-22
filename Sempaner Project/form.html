@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Sempaner Consultant</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <h1 class="sitename"><span>Sempaner</span> Karya Gemilang</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="dashboard.php" class="active">Beranda</a></li>
+          
+          <li class="dropdown"><a href="#"><span>Formulir</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+            <li><a href="voucher.php">Pesan Voucher</a></li>
+            <li><a href="form.html">Permohonan</a></li>
+            <li><a href="formulir_pengajuan.html">Permohonan DB</a></li>
+            </ul>
+            </li>
+          <li class="dropdown"><a href="#"><span>Daftar Transaksi</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="form.html">Riwayat</a></li>
+              <li><a href="formulir_pengajuan.html">Lacak Permohonan</a></li>
+            </ul>
+            </li>
+          <li>
+            <form action="logout.php" method="POST">
+             <button type="submit" class="navmenu-btn">Logout</button>
+            </form>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+      <!--==================== MAIN ====================-->
+      <main>
+        <section class="contact-form">
+            <h1>Formulir Belum Konek DB</h1>
+            <form id="contactForm" method="get">
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" title="Masukkan nama sesuai KTP" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="Masukkan email Anda" title="e.g xxxxxx@email.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="nohp">No. Handphone</label>
+                    <input type="text" inputmode="numeric" id="nohp" name="nohp" placeholder="Masukkan nomor HP Anda" pattern="\d{4}\d{4}\d{4}" maxlength="13" title="Contoh: 0857-1234-56789" required />
+                </div>
+                <div class="form-group">
+                    <label for="lahir">Tanggal Lahir</label>
+                    <input type="text" id="lahir" name="lahir" placeholder="dd/mm/yyyy" required />
+                    <!-- <input type="date" id="lahir" name="lahir" placeholder="mm/dd/yyyy" required/> jika type="date" -->
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <input type="radio" id="pria" name="jkel" value="Pria" required />
+                        <label for="pria">Pria</label>
+                        <input type="radio" id="wanita" name="jkel" value="Wanita" />
+                        <label for="wanita">Wanita</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="status1" name="status1" value="Perorangan" />
+                        <label for="status1">Perorangan</label>
+                        <input type="checkbox" id="status2" name="status2" value="Badan Usaha" />
+                        <label for="status2">Badan Usaha</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Permohonan dilakukan oleh:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="sendiri" name="pelaku" value="Diri Sendiri" />
+                        <label for="sendiri">Diri Sendiri</label>
+                        <input type="radio" id="kuasa" name="pelaku" value="Selaku Kuasa" />
+                        <label for="kuasa">Selaku Kuasa</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="uploadSuratKuasa" style="display: none; margin-top: 10px;">
+                        <label for="suratKuasa">Upload Surat Kuasa:</label>
+                        <input type="file" id="suratKuasa" name="suratKuasa" accept=".pdf,.jpg,.jpeg,.png"/>
+                        <small>*Maksimal Ukuran 2MB (Format: pdf, jpg, jpeg, png)</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="files">Upload Dokumen Persyaratan</label>
+                    <input type="file" id="files" name="files" accept=".pdf, .jpg, .jpeg, .png" required />
+                    <small>* Maksimal Ukuran 2MB (Format: pdf, jpg, jpeg, png)</small>
+                    <div id="fileFeedback"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </div>
+                <div id="formFeedback" class="success"></div>
+                <div id="fileFeedback"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer id="footer" class="footer light-background">
+
+        <div class="container">
+          <div class="copyright text-center ">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Sempaner</strong> <span>All Rights Reserved</span></p>
+          </div>
+          <div class="social-links d-flex justify-content-center">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+          <div class="credits">
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+    
+      </footer>
+    
+      <!-- Scroll Top -->
+      <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    
+      <!-- Preloader -->
+      <div id="preloader"></div>
+    
+   <!--=============== MAIN JS ===============-->
+   <script src="assets/js/main.js"></script>
+   <script src="assets/css/js/bootstrap.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+   </body>
+</html>

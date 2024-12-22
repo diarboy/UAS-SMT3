@@ -2,7 +2,7 @@
 
 ## Deskripsi Proyek
 
-Proyek ini adalah Pengembangan Aplikasi Web Front & Backend. Proyek ini dibuat sebagai bagian dari tugas akhir semester 3. Proyek ini dibangun menggunakan kombinasi bahasa pemrograman PHP, HTML, CSS, dan JavaScript.
+Proyek ini adalah Pengembangan Aplikasi Web Front & Backend enterprise-level application atau B2B system. Proyek ini dibuat sebagai bagian dari tugas akhir semester 3. Proyek ini dibangun menggunakan kombinasi bahasa pemrograman PHP, HTML, CSS, dan JavaScript.
 
 ## Persyaratan
 

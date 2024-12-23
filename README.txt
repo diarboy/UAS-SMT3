@@ -2,7 +2,7 @@
 
 ## Deskripsi Proyek
 
-Proyek ini adalah Pengembangan Aplikasi Web Front & Backend enterprise-level application atau Process Automation (BPA). Proyek ini dibuat sebagai bagian dari tugas akhir semester 3. Proyek ini dibangun menggunakan kombinasi bahasa pemrograman PHP, HTML, CSS, dan JavaScript.
+Proyek ini adalah Pengembangan Aplikasi Web Front & Backend enterprise-level application atau Business Process Automation (BPA). Proyek ini dibuat sebagai bagian dari tugas akhir semester 3. Proyek ini dibangun menggunakan kombinasi bahasa pemrograman PHP, HTML, CSS, dan JavaScript.
 
 ## Persyaratan
 

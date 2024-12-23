@@ -93,6 +93,6 @@ Proyek ini dilisensikan di bawah MIT. Lihat file `LICENSE` untuk informasi lebih
 
 ## Kontak
 
-Jika Anda memiliki pertanyaan atau masalah terkait proyek ini, silakan hubungi kami di [stukies@ymail.com].
+Jika Anda memiliki pertanyaan atau masalah terkait proyek ini, silakan hubungi kami di [ardibukan@live.com].
 
 ```

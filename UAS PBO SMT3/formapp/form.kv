@@ -1,0 +1,69 @@
+<LoginScreen>:
+    orientation: "vertical"
+    padding: 20
+    spacing: 10
+    Label:
+        text: "Login Akun"
+        font_size: 24
+        size_hint_y: None
+        height: 50
+    TextInput:
+        id: username
+        hint_text: "Username"
+        multiline: False
+        write_tab: False
+    TextInput:
+        id: password
+        hint_text: "Password"
+        password: True
+        multiline: False
+        write_tab: False
+    Button:
+        text: "Login"
+        on_release: root.login()
+    Button:
+        text: "Register"
+        on_release: root.register()
+
+<FormulirScreen>:
+    orientation: "vertical"
+    padding: 20
+    spacing: 10
+    Label:
+        text: "Formulir Permohonan"
+        font_size: 24
+        size_hint_y: None
+        height: 50
+    Spinner:
+        id: permohonan
+        text: "Pilih Jenis Permohonan"
+        values: ["Legalitas Perusahaan", "Jasa NIB & OSS", "Merek dan Hak Cipta", "Perpajakan"]
+        on_text: root.update_layanan(self.text)
+    Spinner:
+        id: layanan
+        text: "Pilih Produk Layanan"
+    TextInput:
+        id: nama
+        hint_text: "Masukkan Nama"
+    TextInput:
+        id: email
+        hint_text: "Masukkan Email"
+    TextInput:
+        id: no_hp
+        hint_text: "Masukkan No. HP"
+    BoxLayout:
+        orientation: "horizontal"
+        Button:
+            id: file1
+            text: "Pilih File 1"
+            on_release: root.upload_file_1()
+        Button:
+            id: file2
+            text: "Pilih File 2"
+            on_release: root.upload_file_2()
+    Button:
+        text: "Pratinjau"
+        on_release: root.preview_data()
+    Button:
+        text: "Submit"
+        on_release: root.submit_data()

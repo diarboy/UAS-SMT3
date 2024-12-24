@@ -1,0 +1,91 @@
+ScreenManager:
+    LoginScreen:
+    RegisterScreen:
+    FormulirScreen:
+
+<LoginScreen>:
+    name: "login"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 20
+
+        Label:
+            text: "Login"
+            font_size: 24
+
+        TextInput:
+            id: username
+            hint_text: "Username"
+            multiline: False
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            password: True
+            multiline: False
+
+        Button:
+            text: "Login"
+            on_press: root.login_user()
+
+        Button:
+            text: "Register"
+            on_press: root.manager.current = "register"
+
+<RegisterScreen>:
+    name: "register"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 20
+
+        Label:
+            text: "Register"
+            font_size: 24
+
+        TextInput:
+            id: username
+            hint_text: "Username"
+            multiline: False
+
+        TextInput:
+            id: email
+            hint_text: "Email"
+            multiline: False
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            password: True
+            multiline: False
+
+        TextInput:
+            id: confirm_password
+            hint_text: "Confirm Password"
+            password: True
+            multiline: False
+
+        Button:
+            text: "Register"
+            on_press: root.register_user()
+
+        Button:
+            text: "Back to Login"
+            on_press: root.manager.current = "login"
+
+<FormulirScreen>:
+    name: "form"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 10
+        padding: 20
+
+        Label:
+            text: "Welcome to the Formulir Screen!"
+            font_size: 24
+
+        Button:
+            text: "Logout"
+            on_press: app.root.current = "login"
+            

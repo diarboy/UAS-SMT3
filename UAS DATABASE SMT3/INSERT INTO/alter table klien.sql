@@ -1,0 +1,5 @@
+ALTER TABLE klien
+ADD CONSTRAINT fk_email_akun_klien
+FOREIGN KEY (email) REFERENCES akun_klien(email)
+ON DELETE CASCADE
+ON UPDATE CASCADE;

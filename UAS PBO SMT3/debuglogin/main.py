@@ -56,6 +56,12 @@ class RegisterScreen(Screen):
             self.show_popup("Error", f"Database error: {err}")
         finally:
             conn.close()
+            
+    def reset_fields(self):
+        self.ids.username.text = ""
+        self.ids.email.text = ""
+        self.ids.password.text = ""
+        self.ids.confirm_password.text = ""
 
     def show_popup(self, title, message):
         popup = Popup(title=title, content=Label(text=message), size_hint=(0.8, 0.4))
@@ -84,6 +90,10 @@ class LoginScreen(Screen):
             
         else:
             self.show_popup("Error", "Invalid username or password!")
+    
+    def reset_fields(self):
+        self.ids.username.text = ""
+        self.ids.password.text = ""
 
     def show_popup(self, title, message):
         popup = Popup(title=title, content=Label(text=message), size_hint=(0.8, 0.4))

@@ -92,8 +92,58 @@ ScreenManager:
         padding: 20
 
         Label:
-            text: "Welcome to the Formulir Screen!"
+            text: "Formulir Permohonan"
             font_size: 24
+            size_hint_y: None
+            height: 50
+        Spinner:
+            id: permohonan
+            text: "Pilih Jenis Permohonan"
+            values: ["Legalitas Perusahaan", "Jasa NIB & OSS", "Merek dan Hak Cipta", "Perpajakan"]
+            on_text: root.update_layanan(self.text)
+        Spinner:
+            id: layanan
+            text: "Pilih Produk Layanan"
+
+        TextInput:
+            id: nama
+            hint_text: "Masukkan Nama"
+            write_tab: False
+        
+        TextInput:
+            id: nik
+            hint_text: "Masukkan No. KTP"
+            multiline: False
+            write_tab: False
+
+        TextInput:
+            id: no_hp
+            hint_text: "Masukkan No. HP"
+            multiline: False
+            write_tab: False
+
+        TextInput:
+            id: email
+            hint_text: "Masukkan Email"
+            multiline: False
+            write_tab: False
+        
+        BoxLayout:
+            orientation: "horizontal"
+            Button:
+                id: file1
+                text: "Pilih File 1"
+                on_release: root.upload_file_1()
+            Button:
+                id: file2
+                text: "Pilih File 2"
+                on_release: root.upload_file_2()
+        Button:
+            text: "Pratinjau"
+            on_release: root.preview_data()
+        Button:
+            text: "Submit"
+            on_release: root.submit_data()
 
         Button:
             text: "Logout"

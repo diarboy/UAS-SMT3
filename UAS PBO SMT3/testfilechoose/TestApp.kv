@@ -1,0 +1,24 @@
+<TestFileChooser>:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 20
+
+    Label:
+        text: 'Test File Chooser'
+        size_hint_y: None
+        height: '50dp'
+        font_size: '24sp'
+
+    Button:
+        text: 'Pilih File'
+        size_hint_y: None
+        height: '50dp'
+        on_release: root.choose_file()
+
+    Label:
+        id: file_label
+        text: 'Belum ada file yang dipilih'
+        text_size: self.width, None
+        halign: 'center'
+        size_hint_y: None
+        height: self.texture_size[1]

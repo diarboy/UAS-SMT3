@@ -1,4 +1,7 @@
+// Dashboard Awal belum menggunakan filter ID_Member dan masih menampilkan keseluruhan data (Untuk Admin)
+
 <?php
+use Phppot\Member;
 include 'koneksi.php';
 session_start();
 
@@ -16,17 +19,17 @@ $sql = "SELECT id FROM tbl_member WHERE username = ?";
 $stmt = $koneksi->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
-$stmt->bind_result($id_member);
+$stmt->bind_result($member_id);
 $stmt->fetch();
 $stmt->close();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
-    $nm_pemohon = htmlspecialchars($_POST['nm_pemohon']);
-    $nik = htmlspecialchars($_POST['nik']);
-    $email = htmlspecialchars($_POST['email']);
-    $no_hp = htmlspecialchars($_POST['no_hp']);
-    $jenis_layanan = htmlspecialchars($_POST['jenis_layanan']);
+    $nm_pemohon = $_POST['nm_pemohon'];
+    $nik = $_POST['nik'];
+    $email = $_POST['email'];
+    $no_hp = $_POST['no_hp'];
+    $jenis_layanan = $_POST['jenis_layanan'];
 
     // Query untuk memasukkan data beserta id_member
     $sql = "INSERT INTO voucher (id_member, nm_pemohon, nik, email, no_hp, jenis_layanan) 
@@ -35,33 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("isssss", $id_member, $nm_pemohon, $nik, $email, $no_hp, $jenis_layanan);
 
     // Eksekusi query dan periksa apakah berhasil
-    if ($stmt->execute()) {
+    if ($koneksi->query($sql) === TRUE) {
         // Redirect ke halaman yang sama untuk mencegah re-POST
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . $sql . "<br>" . $koneksi->error;
     }
-    $stmt->close();
 }
-
-// Query untuk mengambil data berdasarkan id_member
-$sql_member = "SELECT * FROM voucher WHERE id_member = ?";
-$stmt_member = $koneksi->prepare($sql_member);
-$stmt_member->bind_param("i", $id_member);
-$stmt_member->execute();
-$result_member = $stmt_member->get_result();
-
-// Query untuk mengambil seluruh data dari tabel voucher
-$sql_all = "SELECT * FROM voucher";
-$result_all = $koneksi->query($sql_all);
-
-$stmt_member->close();
-$koneksi->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -77,7 +66,7 @@ $koneksi->close();
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -103,19 +92,20 @@ $koneksi->close();
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="dashboard.php" class="active">Beranda</a></li>
+          
           <li class="dropdown"><a href="#"><span>Formulir</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
             <li><a href="voucher.php">Pesan Voucher</a></li>
             <li><a href="form.html">Permohonan</a></li>
             <li><a href="formulir_pengajuan.html">Permohonan DB</a></li>
             </ul>
-          </li>
+            </li>
           <li class="dropdown"><a href="#"><span>Daftar Transaksi</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="dashboard.php">Riwayat</a></li>
               <li><a href="tracking.php">Lacak Permohonan</a></li>
             </ul>
-          </li>
+            </li>
           <li>
             <form action="logout.php" method="POST">
              <button type="submit" class="navmenu-btn">Logout</button>
@@ -151,56 +141,7 @@ $koneksi->close();
       </nav>
     </div><!-- End Page Title -->
 
-    <!-- Voucher Anda Section -->
-    <section id="starter-section" class="starter-section section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Dashboard</h2>
-        <div><span>Daftar</span> <span class="description-title">Voucher</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container mt-1">
-
-        <!-- Tabel Data -->
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Pemohon</th>
-                    <th class="text-center">NIK</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">No HP</th>
-                    <th class="text-center">Jenis Layanan</th>
-                    <th class="text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $no = 1; // Variabel untuk nomor urut
-                while ($row = $result_member->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . $no . "</td>
-                            <td>" . htmlspecialchars($row["nm_pemohon"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["nik"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["email"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["no_hp"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["jenis_layanan"]) . "</td>
-                            <td class='text-center'>
-                                <a class='select-menu' href='print.php?id=" . htmlspecialchars($row["id_pemohon"]) . "' target='_blank'>Print</a> 
-                                <a class='select-menu' href='edit.php?id=" . htmlspecialchars($row["id_pemohon"]) . "'>Edit</a> 
-                                <a class='delete-menu' href='delete.php?id=" . htmlspecialchars($row["id_pemohon"]) . "' onclick='return confirmDelete()'>Hapus</a>
-                            </td>
-                        </tr>";
-                    $no++; // Increment nomor urut
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-    </section><!-- /Voucher Anda Section -->
-
-    <!-- Voucher All Section -->
+    <!-- Starter Section Section -->
     <section id="starter-section" class="starter-section section">
 
       <!-- Section Title -->
@@ -226,28 +167,121 @@ $koneksi->close();
             </thead>
             <tbody>
                 <?php
-                $no = 1; // Variabel untuk nomor urut
-                while ($row = $result_all->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . $no . "</td>
-                            <td>" . htmlspecialchars($row["nm_pemohon"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["nik"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["email"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["no_hp"]) . "</td>
-                            <td class='text-center'>" . htmlspecialchars($row["jenis_layanan"]) . "</td>
-                            <td class='text-center'>
-                                <a class='select-menu' href='print.php?id=" . htmlspecialchars($row["id_pemohon"]) . "' target='_blank'>Print</a> 
-                                <a class='select-menu' href='edit.php?id=" . htmlspecialchars($row["id_pemohon"]) . "'>Edit</a> 
-                                <a class='delete-menu' href='delete.php?id=" . htmlspecialchars($row["id_pemohon"]) . "' onclick='return confirmDelete()'>Hapus</a>
-                            </td>
-                        </tr>";
-                    $no++; // Increment nomor urut
+                // Koneksi ke database
+                $host = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "contact_form";
+
+                $koneksi = new mysqli($host, $username, $password, $database);
+
+                // Cek koneksi
+                if ($koneksi->connect_error) {
+                    die("Koneksi gagal: " . $koneksi->connect_error);
+                }
+
+                // Query untuk mengambil data
+                $sql = "SELECT id_pemohon, nm_pemohon, nik, email, no_hp, jenis_layanan FROM voucher";
+                $result = $koneksi->query($sql);
+
+                if ($result->num_rows > 0) {
+                    $no = 1; // Variabel untuk nomor urut
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>" . $no . "</td>
+                                <td>" . $row["nm_pemohon"] . "</td>
+                                <td class='text-center'>" . $row["nik"] . "</td>
+                                <td class='text-center'>" . $row["email"] . "</td>
+                                <td class='text-center'>" . $row["no_hp"] . "</td>
+                                <td class='text-center'>" . $row["jenis_layanan"] . "</td>
+                                <td class='text-center'>
+                                    <a class='select-menu' href='print.php?id=" . $row["id_pemohon"] . "' target='_blank'>Print</a> 
+                                    <a class='select-menu' href='edit.php?id=" . $row["id_pemohon"] . "'>Edit</a> 
+                                    <a class='delete-menu' href='delete.php?id=" . $row["id_pemohon"] . "' onclick='return confirmDelete()'>Hapus</a>
+
+                                </td>
+                            </tr>";
+                        $no++; // Increment nomor urut
+                    }
+                } else {
+                    echo "<tr><td colspan='7' class='text-center'>Tidak ada data</td></tr>";
                 }
                 ?>
             </tbody>
         </table>
     </div>
-    </section><!-- /Voucher All Section -->
+    </section><!-- /Dashboard Section -->
+
+    <!-- Starter Section Section -->
+    <section id="starter-section" class="starter-section section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Dashboard</h2>
+        <div><span>Daftar</span> <span class="description-title">Permohonan</span></div>
+      </div><!-- End Section Title -->
+
+      <div class="container mt-1">
+
+        <!-- Tabel Data -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No</th>
+                    <th>Nama Pemohon</th>
+                    <th class="text-center">NIK</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">No HP</th>
+                    <th class="text-center">Jenis Layanan</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Koneksi ke database
+                $host = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "contact_form";
+
+                $koneksi = new mysqli($host, $username, $password, $database);
+
+                // Cek koneksi
+                if ($koneksi->connect_error) {
+                    die("Koneksi gagal: " . $koneksi->connect_error);
+                }
+
+                // Query untuk mengambil data
+                $sql = "SELECT id_pemohon, nm_pemohon, nik, email, no_hp, jenis_layanan FROM voucher";
+                $result = $koneksi->query($sql);
+
+                if ($result->num_rows > 0) {
+                    $no = 1; // Variabel untuk nomor urut
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>" . $no . "</td>
+                                <td>" . $row["nm_pemohon"] . "</td>
+                                <td class='text-center'>" . $row["nik"] . "</td>
+                                <td class='text-center'>" . $row["email"] . "</td>
+                                <td class='text-center'>" . $row["no_hp"] . "</td>
+                                <td class='text-center'>" . $row["jenis_layanan"] . "</td>
+                                <td class='text-center'>
+                                    <a class='select-menu' href='print.php?id=" . $row["id_pemohon"] . "' target='_blank'>Print</a> 
+                                    <a class='select-menu' href='edit.php?id=" . $row["id_pemohon"] . "'>Edit</a> 
+                                    <a class='delete-menu' href='delete.php?id=" . $row["id_pemohon"] . "' onclick='return confirmDelete()'>Hapus</a>
+
+                                </td>
+                            </tr>";
+                        $no++; // Increment nomor urut
+                    }
+                } else {
+                    echo "<tr><td colspan='7' class='text-center'>Tidak ada data</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    </section><!-- /Dashboard Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">

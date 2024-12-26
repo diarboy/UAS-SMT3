@@ -1,7 +1,28 @@
 <?php
 include 'koneksi.php';
+session_start(); // Pastikan sesi dimulai
 $error_message = "";
 $conn = $koneksi;
+
+// Pastikan pengguna telah login dan username tersedia di sesi
+if (!isset($_SESSION['username'])) {
+    echo "<script>
+            alert('Anda harus login terlebih dahulu.');
+            window.location.href = 'login.php';
+          </script>";
+    exit;
+}
+
+$username = $_SESSION['username'];
+
+// Ambil id_member dari tabel tbl_member berdasarkan username
+$sql = "SELECT id FROM tbl_member WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($id_member);
+$stmt->fetch();
+$stmt->close();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $no_hp = htmlspecialchars($_POST["no_hp"]);
@@ -18,11 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
       if (empty($error_message)) {
-        // Query untuk memasukkan data ke dalam database menggunakan prepared statement
-        $stmt = $conn->prepare("INSERT INTO voucher (no_hp, nm_pemohon, nik, email, jenis_layanan) VALUES (?, ?, ?, ?, ?)");
+        // $stmt = $conn->prepare("INSERT INTO voucher (no_hp, nm_pemohon, nik, email, jenis_layanan) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO voucher (id_member, no_hp, nm_pemohon, nik, email, jenis_layanan) VALUES (?, ?, ?, ?, ?, ?)");
         
         // Bind data ke query
-        $stmt->bind_param("sssss", $no_hp, $nm_pemohon, $nik, $email, $jenis_layanan);
+        // $stmt->bind_param("sssss", $no_hp, $nm_pemohon, $nik, $email, $jenis_layanan);
+        $stmt->bind_param("isssss", $id_member, $no_hp, $nm_pemohon, $nik, $email, $jenis_layanan);
         
         if ($stmt->execute()) {
             echo "<script>
@@ -89,10 +111,10 @@ $conn->close();
               <li><a href="tracking.php">Lacak Permohonan</a></li>
             </ul>
             </li>
-          <li>
-            <form action="logout.php" method="POST">
-             <button type="submit" class="navmenu-btn">Logout</button>
-            </form>
+          <li><a href="logout.php">Logout</a>
+            <!-- <form action= "logout.php" method="POST">
+             <button type="submit" class="navmenu-btn" name="logout">Logout</button>
+            </form> -->
           </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

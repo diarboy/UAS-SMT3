@@ -133,13 +133,13 @@ class FormulirScreen(Screen):
         self.ids.layanan.text = layanan[0] if layanan else ""
 
     def upload_file_1(self):
-        filechooser = FileChooserIconView(filters=["*.pdf"])  # Hanya file PDF yang dipilih
+        filechooser = FileChooserIconView(filters=["*.pdf"])  
         filechooser.bind(on_selection=lambda instance, value: self.on_file_selected(value, 1))
         popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
         popup.open()
 
     def upload_file_2(self):
-        filechooser = FileChooserIconView(filters=["*.pdf"])  # Hanya file PDF yang dipilih
+        filechooser = FileChooserIconView(filters=["*.pdf"])
         filechooser.bind(on_selection=lambda instance, value: self.on_file_selected(value, 2))
         popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
         popup.open()

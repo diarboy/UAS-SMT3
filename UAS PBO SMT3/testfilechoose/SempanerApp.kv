@@ -1,0 +1,150 @@
+<LoginScreen>:
+    username: username
+    password: password
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 20
+
+        Label:
+            text: 'Login'
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        TextInput:
+            id: username
+            hint_text: 'Username'
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            write_tab: False
+
+        TextInput:
+            id: password
+            hint_text: 'Password'
+            password: True
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            
+
+        Button:
+            text: 'Login'
+            size_hint_y: None
+            height: '50dp'
+            on_press: root.validate_login()
+
+<RegistrationScreen>:
+    nama: nama
+    nik: nik
+    email: email
+    hp: hp
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: 'Formulir Pendaftaran'
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        TextInput:
+            id: nama
+            hint_text: 'Nama'
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+
+        TextInput:
+            id: nik
+            hint_text: 'NIK'
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+
+        TextInput:
+            id: email
+            hint_text: 'Email'
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+
+        TextInput:
+            id: hp
+            hint_text: 'No. HP'
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+
+        Spinner:
+            id: spinner_legal
+            text: 'Pilih Legalitas Perusahaan'
+            values: ['Pendirian PT', 'Pendirian CV', 'Pendirian Firma', 'Pendirian Yayasan', 'Pendirian Koperasi', 'Pendirian Perkumpulan']
+            size_hint_y: None
+            height: '40dp'
+
+        Spinner:
+            id: spinner_nib
+            text: 'Pilih Jasa NIB & OSS'
+            values: ['Pendaftaran Akun OSS dan NIB Perorangan', 'Pendaftaran Akun OSS dan NIB Perusahaan', 'Pengurusan Sertifikat Standar', 'Pengurusan Persetujuan Lingkungan', 'Pengurusan Perizinan UMKU']
+            size_hint_y: None
+            height: '40dp'
+
+        Spinner:
+            id: spinner_merek
+            text: 'Pilih Merek dan Hak Cipta'
+            values: ['Analisa Merek', 'Pendaftaran Merek untuk 1 Kelas', 'Pendaftaran Hak Cipta', 'Pendaftaran Paten', 'Pengurusan Madrid Office of Origin']
+            size_hint_y: None
+            height: '40dp'
+
+        Spinner:
+            id: spinner_pajak
+            text: 'Pilih Perpajakan'
+            values: ['Pelaporan SPT Tahunan', 'Pengukuhan PKP', 'Penerbitan Sertifikat Elektronik']
+            size_hint_y: None
+            height: '40dp'
+
+        Button:
+            text: 'Lanjut'
+            size_hint_y: None
+            height: '50dp'
+            on_press: root.validate_registration()
+
+<UploadScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: 'Upload File'
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        FileChooserListView:
+            filters: ['*.pdf']
+            on_selection: root.select_file(self.selection)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '10dp'
+            spacing: 10
+
+            Button:
+                text: 'Preview'
+                on_press: root.preview_data()
+
+            Button:
+                text: 'Submit'
+                on_press: root.submit_form()
+
+            Button:
+                text: 'Logout'
+                on_press: root.logout()

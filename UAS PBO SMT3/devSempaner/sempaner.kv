@@ -2,13 +2,14 @@ ScreenManager:
     LoginScreen:
     RegisterScreen:
     FormulirScreen:
+    UploadScreen:
 
 <LoginScreen>:
     name: "login"
     BoxLayout:
         orientation: "vertical"
-        spacing: 10
-        padding: 20
+        spacing: 20
+        padding: 50
 
         Label:
             text: "Login"
@@ -42,7 +43,7 @@ ScreenManager:
     BoxLayout:
         orientation: "vertical"
         spacing: 10
-        padding: 20
+        padding: 60
 
         Label:
             text: "Register"
@@ -86,6 +87,10 @@ ScreenManager:
 
 <FormulirScreen>:
     name: "form"
+    nama: nama
+    nik: nik
+    email: email
+    hp: no_hp
     BoxLayout:
         orientation: "vertical"
         spacing: 10
@@ -128,27 +133,62 @@ ScreenManager:
             multiline: False
             write_tab: False
         
-        BoxLayout:
-            orientation: "horizontal"
-            Button:
-                id: file1
-                text: "Pilih File 1"
-                on_release: root.upload_file_1()
-            Button:
-                id: file2
-                text: "Pilih File 2"
-                on_release: root.upload_file_2()
-                
         Button:
-            text: "Pratinjau"
-            on_release: root.preview_data()
-        Button:
-            text: "Submit"
-            on_release: root.submit_data()
+            text: 'Lanjut'
+            size_hint_y: None
+            height: '50dp'
+            on_press: root.validasi_formulir()
 
-        Button:
-            text: "Logout"
-            on_press: 
-                app.root.current = "login"
-                root.manager.get_screen('login').reset_fields()
+<UploadScreen>:
+    name: "upload"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+
+        Label:
+            text: 'Upload File'
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        FileChooserListView:
+            filters: ['*.pdf']
+            on_selection: root.select_file(self.selection)
+                
+        Label:
+            id: file_label
+            text: 'No file selected'
+            size_hint_y: None
+            height: '30dp'
+            halign: 'center'
+            text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '50dp'
+            size_hint_x: 0.8
+            spacing: 10
+            pos_hint: {'center_x': 0.5}
+                
+            Button:
+                text: "Pratinjau"
+                on_release: root.preview_data()
+                
+            Button:
+                text: "Submit"
+                on_release: root.submit_data()
+                
+
+            Button:
+                text: "Logout"
+                on_press: 
+                    app.root.current = "login"
+                    root.manager.get_screen('login').reset_fields()
             
+            Button:
+                text: "Kembali"
+                on_press: 
+                    app.root.current = "form"
+                    root.manager.get_screen('form').reset_fields()

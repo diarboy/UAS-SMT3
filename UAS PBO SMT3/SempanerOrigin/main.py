@@ -4,6 +4,9 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
 from kivy.uix.filechooser import FileChooserIconView
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from os.path import basename
 import bcrypt
 import mysql.connector
 
@@ -133,31 +136,38 @@ class FormulirScreen(Screen):
         self.ids.layanan.text = layanan[0] if layanan else ""
 
     def upload_file_1(self):
-        filechooser = FileChooserIconView(filters=["*.pdf"])  
+        filechooser = FileChooserIconView(filters=["*.pdf"], path=".")
         filechooser.bind(on_selection=lambda instance, value: self.on_file_selected(value, 1))
-        popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
-        popup.open()
+        self.file_popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
+        self.file_popup.open()
 
     def upload_file_2(self):
-        filechooser = FileChooserIconView(filters=["*.pdf"])
+        filechooser = FileChooserIconView(filters=["*.pdf"], path=".")
         filechooser.bind(on_selection=lambda instance, value: self.on_file_selected(value, 2))
-        popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
-        popup.open()
+        self.file_popup = Popup(title="Pilih File PDF", content=filechooser, size_hint=(0.8, 0.8))
+        self.file_popup.open()
 
     def on_file_selected(self, selection, file_number):
         if selection:
             selected_file = selection[0]
+            file_name = basename(selected_file)
             if file_number == 1:
                 self.selected_file_1 = selected_file
-                self.ids.file1.text = f"File 1: {selected_file}"
+                self.ids.file1.text = f"File 1: {file_name}"
             elif file_number == 2:
                 self.selected_file_2 = selected_file
-                self.ids.file2.text = f"File 2: {selected_file}"
+                self.ids.file2.text = f"File 2: {file_name}"
+
+            if hasattr(self, 'file_popup') and self.file_popup:
+                self.file_popup.dismiss()  # Tutup popup setelah file dipilih
         else:
             if file_number == 1:
                 self.ids.file1.text = "Pilih File"
             elif file_number == 2:
                 self.ids.file2.text = "Pilih File"
+
+        
+        self.file_popup.dismiss()
 
     def preview_data(self):
         data = {
@@ -200,7 +210,7 @@ class FormulirScreen(Screen):
             """, (
                 data["nama"], data["nik"], data["email"], 
                 data["no_hp"], data["permohonan"], data["layanan"]
-                # f"{data['file1']}, {data['file2']}"
+                # f"{data['file1']}, {data['file2']}" //file blm msk db
             ))
             conn.commit()
             self.show_popup("Success", "Data berhasil dikirim!")
@@ -218,8 +228,8 @@ class FormulirScreen(Screen):
 class sempaner(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(LoginScreen(name="login"))
-        sm.add_widget(RegisterScreen(name="register"))
+        # sm.add_widget(LoginScreen(name="login"))
+        # sm.add_widget(RegisterScreen(name="register"))
         sm.add_widget(FormulirScreen(name="form"))
         return sm
 

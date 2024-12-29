@@ -1,0 +1,155 @@
+ScreenManager:
+    LoginScreen:
+    RegisterScreen:
+    FormulirScreen:
+
+<LoginScreen>:
+    name: "login"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDLabel:
+            text: "Login"
+            font_style: "H5"
+            halign: "center"
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            mode: "rectangle"
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            password: True
+            mode: "rectangle"
+
+        MDRaisedButton:
+            text: "Login"
+            on_press: root.login_user()
+            pos_hint: {"center_x": 0.5}
+
+        MDRaisedButton:
+            text: "Register"
+            on_press: 
+                root.manager.current = "register"
+                root.manager.get_screen('register').reset_fields()
+            pos_hint: {"center_x": 0.5}
+
+<RegisterScreen>:
+    name: "register"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDLabel:
+            text: "Register"
+            font_style: "H5"
+            halign: "center"
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            mode: "rectangle"
+
+        MDTextField:
+            id: email
+            hint_text: "Email"
+            mode: "rectangle"
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            password: True
+            mode: "rectangle"
+
+        MDTextField:
+            id: confirm_password
+            hint_text: "Confirm Password"
+            password: True
+            mode: "rectangle"
+
+        MDRaisedButton:
+            text: "Register"
+            on_press: root.register_user()
+            pos_hint: {"center_x": 0.5}
+
+        MDRaisedButton:
+            text: "Back to Login"
+            on_press: 
+                root.manager.current = "login"
+                root.manager.get_screen('login').reset_fields()
+            pos_hint: {"center_x": 0.5}
+
+<FormulirScreen>:
+    name: "form"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDLabel:
+            text: "Formulir Permohonan"
+            font_style: "H5"
+            halign: "center"
+
+        MDRaisedButton:
+            id: permohonan
+            text: "Pilih Jenis Permohonan"
+            values: ["Legalitas Perusahaan", "Jasa NIB & OSS", "Merek dan Hak Cipta", "Perpajakan"]
+            on_text: root.update_layanan(self.text)
+
+        MDRaisedButton:
+            id: layanan
+            text: "Pilih Produk Layanan"
+
+        MDTextField:
+            id: nama
+            hint_text: "Masukkan Nama"
+            mode: "rectangle"
+
+        MDTextField:
+            id: nik
+            hint_text: "Masukkan No. KTP"
+            mode: "rectangle"
+
+        MDTextField:
+            id: no_hp
+            hint_text: "Masukkan No. HP"
+            mode: "rectangle"
+
+        MDTextField:
+            id: email
+            hint_text: "Masukkan Email"
+            mode: "rectangle"
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            MDRaisedButton:
+                id: file1
+                text: "Pilih File 1"
+                on_release: root.upload_file_1()
+            MDRaisedButton:
+                id: file2
+                text: "Pilih File 2"
+                on_release: root.upload_file_2()
+
+        MDRaisedButton:
+            text: "Pratinjau"
+            on_release: root.preview_data()
+            pos_hint: {"center_x": 0.5}
+
+        MDRaisedButton:
+            text: "Submit"
+            on_release: root.submit_data()
+            pos_hint: {"center_x": 0.5}
+
+        MDRaisedButton:
+            text: "Logout"
+            on_press: 
+                app.root.current = "login"
+                root.manager.get_screen('login').reset_fields()
+            pos_hint: {"center_x": 0.5}

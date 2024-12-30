@@ -6,7 +6,7 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from os.path import basename
+from os.path import basename, dirname
 import bcrypt
 import mysql.connector
 
@@ -110,6 +110,8 @@ class FormulirScreen(Screen):
     nik = ObjectProperty(None)
     email = ObjectProperty(None)
     hp = ObjectProperty(None)
+    permohonan = ObjectProperty(None)
+    layanan = ObjectProperty(None)
     
     def validasi_formulir(self):
         if (self.nama.text and self.nik.text and 
@@ -149,36 +151,50 @@ class FormulirScreen(Screen):
 
 class UploadScreen(Screen):
     selected_file = StringProperty('')
+    preview_text = {}
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.file_chooser = FileChooserIconView(path='.') 
 
     def select_file(self, selection):
         if selection:
             self.selected_file = selection[0]
-            self.ids.file_label.text = f"Selected File: {basename(selection[0])}"
+            self.ids.file_label.text = f"Pilih Dokumen: {self.selected_file} {basename(selection[0])}"
 
     def preview_data(self):
         if not self.selected_file:
-            self.show_popup("Error", "Please select a file first!")
+            self.show_popup("Error", "Pilih Dokumen Terlebih Dahulu!")
             return
         FormulirScreen = self.manager.get_screen('form')
         content = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        preview_text = (
+        self.preview_text = { 
+            "nama": FormulirScreen.nama.text,
+            "nik": FormulirScreen.nik.text,
+            "email": FormulirScreen.email.text,
+            "no_hp": FormulirScreen.hp.text,
+            "permohonan": FormulirScreen.ids.permohonan.text,
+            "layanan": FormulirScreen.ids.layanan.text,
+            "selected_file": basename(self.selected_file)
+        }
+        preview_content = (
             f"Nama: {FormulirScreen.nama.text}\n"
             f"NIK: {FormulirScreen.nik.text}\n"
             f"Email: {FormulirScreen.email.text}\n"
             f"No HP: {FormulirScreen.hp.text}\n"
             f"Jenis Permohonan: {FormulirScreen.ids.permohonan.text}\n"
             f"Jenis Layanan: {FormulirScreen.ids.layanan.text}\n"
-            f"Lampiran Dokumen: {basename(self.selected_file)}\n"
+            f"Lampiran Dokumen: {self.selected_file} {basename(self.selected_file)}\n"
         )
 
-        content.add_widget(Label(text=preview_text))
+        content.add_widget(Label(text=preview_content))
         button = Button(text='Close', size_hint=(1, 0.2))
         content.add_widget(button)
         
         popup = Popup(title='Preview Data',
                      content=content,
                      size_hint=(None, None),
-                     size=(500, 400))
+                     size=(600, 400))
         
         button.bind(on_press=popup.dismiss)
         popup.open()
@@ -188,27 +204,24 @@ class UploadScreen(Screen):
         if not self.selected_file:
             self.show_popup("Error", "Please select a file first!")
             return
-        FormulirScreen = self.manager.get_screen('form')
-        preview_text = {
-            "nama": self.ids.nama.text,
-            "nik": self.ids.nik.text,
-            "email": self.ids.email.text,
-            "no_hp": self.ids.no_hp.text,
-            "permohonan": self.ids.permohonan.text,
-            "layanan": self.ids.layanan.text
-        }
+
+        if not hasattr(self, 'preview_text') or not self.preview_text:
+            self.show_popup("Error", "Lakukan Pratinjau Terlebih Dahulu!")
+            return
+
+        data = self.preview_text
 
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute("""
                 INSERT INTO form_kivy 
-                (nama_pemohon, nik, email, no_hp, jenis_permohonan, produk_layanan) 
-                VALUES (%s, %s, %s, %s, %s, %s)
+                (nama_pemohon, nik, email, no_hp, jenis_permohonan, produk_layanan, lampiran) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (
                 data["nama"], data["nik"], data["email"], 
-                data["no_hp"], data["permohonan"], data["layanan"]
-                # f"{data['file1']}, {data['file2']}" //file blm msk db
+                data["no_hp"], data["permohonan"], data["layanan"],
+                f"{data['selected_file']}"
             ))
             conn.commit()
             self.show_popup("Success", "Data berhasil dikirim!")
@@ -223,14 +236,14 @@ class UploadScreen(Screen):
 
 
 # Main App
-class sempaner(App):
+class Sempaner(App):
     def build(self):
         sm = ScreenManager()
-        # sm.add_widget(LoginScreen(name="login"))
-        # sm.add_widget(RegisterScreen(name="register"))
+        sm.add_widget(LoginScreen(name="login"))
+        sm.add_widget(RegisterScreen(name="register"))
         sm.add_widget(FormulirScreen(name="form"))
         sm.add_widget(UploadScreen(name="upload"))
         return sm
 
 if __name__ == "__main__":
-    sempaner().run()
+    Sempaner().run()

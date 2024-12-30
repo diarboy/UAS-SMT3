@@ -40,59 +40,15 @@ Ikuti langkah-langkah berikut untuk menginstal dan menjalankan proyek ini di mes
     DB_HOST=localhost
     DB_DATABASE=nama_database
     DB_USERNAME=root
-    DB_PASSWORD=password_anda
+    DB_PASSWORD=[kosongkan]
     ```
 6. Jalankan server lokal menggunakan PHP:
     ```bash
-    php -S localhost:8000
+    php -S localhost:3306
     ```
-7. Buka browser dan akses proyek di `http://localhost:8000`.
+7. Buka browser dan akses proyek di `http://localhost:3306`.
 
 ## Penggunaan
 
-Berikut adalah panduan singkat tentang cara menggunakan proyek ini:
-
-1. [Langkah 1: Misalnya, login atau registrasi]
-2. [Langkah 2: Misalnya, mengisi form atau mengupload file]
-3. [Langkah 3: Misalnya, melihat hasil atau laporan]
-
-## Struktur Direktori
-
-Berikut adalah struktur direktori utama dari proyek ini:
-
-```
-UAS-SMT3/
-├── public/
-│   ├── index.php
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── src/
-│   ├── Controller/
-│   ├── Model/
-│   └── View/
-├── vendor/
-├── .env
-├── composer.json
-└── README.md
-```
-
-## Kontribusi
-
-Saya menyambut kontribusi dari siapa saja. Jika Anda ingin berkontribusi, ikuti langkah-langkah berikut:
-
-1. Fork repositori ini.
-2. Buat branch baru untuk fitur atau perbaikan Anda (`git checkout -b fitur-anda`).
-3. Commit perubahan Anda (`git commit -m 'Menambahkan fitur ABC'`).
-4. Push ke branch (`git push origin fitur-anda`).
-5. Buat Pull Request.
-
-## Lisensi
-
-Proyek ini dilisensikan di bawah MIT. Lihat file `LICENSE` untuk informasi lebih lanjut.
-
-## Kontak
-
-Jika Anda memiliki pertanyaan atau masalah terkait proyek ini, silakan hubungi kami di [ardibukan@live.com].
-
-```
+userpass terdapat di db contact_form
+admin dan user
